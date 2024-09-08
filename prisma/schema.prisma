@@ -1,0 +1,103 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Customer {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  age      Int
+  password String
+  address  String?
+  orders   Order[]
+}
+
+model Driver {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  age      Int
+  password String
+  payments DriverPayments[]
+  orders   Order[]
+}
+
+model Store {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  address  String
+  foods    Food[]
+  orders   Order[]
+}
+
+model Food {
+  id        Int      @id @default(autoincrement())
+  description String
+  cost      Float
+  store     Store    @relation(fields: [storeId], references: [id])
+  storeId   Int
+  orderFoods OrderFoods[]
+}
+
+model Promotion {
+  id         Int      @id @default(autoincrement())
+  description String
+  value      Int
+  orderPromotions OrderPromotions[]
+}
+
+model Order {
+  id         Int      @id @default(autoincrement())
+  total      Float
+  status     OrderStatus
+  orderDate  DateTime @default(now())
+  deliveryDate DateTime?
+  store      Store    @relation(fields: [storeId], references: [id])
+  storeId    Int
+  customer   Customer @relation(fields: [customerId], references: [id])
+  customerId Int
+  driver     Driver?  @relation(fields: [driverId], references: [id])
+  driverId   Int?
+  orderFoods OrderFoods[]
+  orderPromotions OrderPromotions[]
+  driverPayments DriverPayments[]
+}
+
+model OrderFoods {
+  order   Order  @relation(fields: [orderId], references: [id])
+  orderId Int
+  food    Food   @relation(fields: [foodId], references: [id])
+  foodId  Int
+  quantity Int
+
+  @@id([orderId, foodId])
+}
+
+model OrderPromotions {
+  order      Order      @relation(fields: [orderId], references: [id])
+  orderId    Int
+  promotion  Promotion  @relation(fields: [promotionId], references: [id])
+  promotionId Int
+
+  @@id([orderId, promotionId])
+}
+
+model DriverPayments {
+  id         Int      @id @default(autoincrement())
+  driver     Driver   @relation(fields: [driverId], references: [id])
+  driverId   Int
+  order      Order    @relation(fields: [orderId], references: [id])
+  orderId    Int
+  paymentAmount Float
+  paymentDate DateTime @default(now())
+}
+
+enum OrderStatus {
+  Preparing
+  Delivering
+  Delivered
+  Cancel
+}
