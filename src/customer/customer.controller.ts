@@ -7,9 +7,16 @@ import { UpdateCustomerDto } from './dto/update-customer.dto';
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
 
-  @Post()
+  @Post('create')
   create(@Body() createCustomerDto: CreateCustomerDto) {
     return this.customerService.create(createCustomerDto);
+  }
+
+  @Post('login')
+  login(
+    @Body('email') email: string,
+    @Body('password') password: string){
+      return this.customerService.login(email, password);
   }
 
   @Get()
