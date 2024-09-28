@@ -18,4 +18,13 @@ export class OrderController {
   ){
     return this.orderService.createOrder(req, listFoods, +storeId);
   }
+
+  @Post('/pay-order')
+  @UseGuards(JwtAuthGuard)
+  payOrder(
+    @Req() req: Request,
+    @Body("orderId") orderId: number
+  ){
+    return this.orderService.payOrder(req, +orderId);
+  }
 }
