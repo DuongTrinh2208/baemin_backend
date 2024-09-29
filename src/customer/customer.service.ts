@@ -25,14 +25,15 @@ export class CustomerService {
     }
 
     let hashedPassword = await bcrypt.hash(password, 5);
-    return await this.prisma.customer.create({
+    let data = await this.prisma.customer.create({
       data: {
         email,
         password: hashedPassword,
         age,
         address
       }
-    });
+    })
+    return data != null;
   }
 
   async login(email: string, input_password: string){
