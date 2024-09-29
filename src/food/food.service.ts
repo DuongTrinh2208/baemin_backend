@@ -33,8 +33,13 @@ export class FoodService {
     let data = await this.prisma.food.findMany({
       where: {
         description: {
-          contains: name
+          contains: name,
+          mode: 'insensitive'
         }
+      },
+      include: {
+        store: true,
+        category: true
       }
     });
     return data;
