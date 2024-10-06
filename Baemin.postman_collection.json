@@ -1,0 +1,284 @@
+{
+	"info": {
+		"_postman_id": "0cf97f28-2726-40eb-ad98-77e7e9cf9d41",
+		"name": "Baemin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32465260"
+	},
+	"item": [
+		{
+			"name": "Signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"admin\",\n    \"age\": 18,\n    \"address\": \"123\",\n    \"password\": \"Duong123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/customer/create",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"customer",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"dtrinh\",\n    \"password\": \"Duong123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/customer/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"customer",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All foods",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/food/list",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"food",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Food pagination",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/food/list-paging?page=2&perPage=5",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"food",
+						"list-paging"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						},
+						{
+							"key": "perPage",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Food Category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/food/category",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food",
+						"category"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Food",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/food/find?name=Ca Phe",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food",
+						"find"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Ca Phe"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJkdHJpbmgiLCJhZ2UiOjE4LCJhZGRyZXNzIjoiMTIzIiwiaWF0IjoxNzI3NTMxODI0LCJleHAiOjE3Mjc1MzU0MjR9.-D5wUeRoq-zVPSZqN-rADstccSwL2Td2RjrOBoKAZF8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"listFoods\": [\n        {\n            \"id\": 14,\n            \"quantity\": 1\n        },\n        {\n            \"id\": 15,\n            \"quantity\": 2\n        }\n    ],\n    \"storeId\": 10\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/order/create-order",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order",
+						"create-order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pay Order",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJkdHJpbmgiLCJhZ2UiOjE4LCJhZGRyZXNzIjoiMTIzIiwiaWF0IjoxNzI3NTM1NzEzLCJleHAiOjE3Mjc1MzkzMTN9.1JMz72zWLqbESHd7T4ENDbK2ICiQpOZnJHX74ZTOrr0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"orderId\": \"14\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/order/pay-order",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"order",
+						"pay-order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Store",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/food/store?storeId=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food",
+						"store"
+					],
+					"query": [
+						{
+							"key": "storeId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Store Food",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/food/storeFoods?storeId=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"food",
+						"storeFoods"
+					],
+					"query": [
+						{
+							"key": "storeId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
