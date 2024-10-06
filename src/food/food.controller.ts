@@ -22,6 +22,16 @@ export class FoodController {
     return this.foodService.findFood(name);
   }
 
+  @Get('/store')
+  getStore(@Query('storeId') storeId: number){
+    return this.foodService.getFoodStore(+storeId);
+  }
+
+  @Get('/storeFoods')
+  getStoreFood(@Query('storeId') storeId: number){
+    return this.foodService.getFoodsInStore(+storeId);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFoodDto: UpdateFoodDto) {
     return this.foodService.update(+id, updateFoodDto);

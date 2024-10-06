@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Req, UseGuards, Query } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -26,5 +26,14 @@ export class OrderController {
     @Body("orderId") orderId: number
   ){
     return this.orderService.payOrder(req, +orderId);
+  }
+
+  @Get('/get-order')
+  @UseGuards(JwtAuthGuard)
+  getOrder(
+    @Req() req: Request,
+    @Query('orderId') orderId: number
+  ){
+    return this.orderService.getOrder(+orderId);
   }
 }

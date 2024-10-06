@@ -132,7 +132,7 @@ export class OrderService {
         id: storeId
       }
     });
-    console.log(store);
+    
     return store != null;    
   }
 
@@ -147,5 +147,22 @@ export class OrderService {
     const seconds = String(now.getSeconds()).padStart(2, '0');
 
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  }
+
+  async getOrder(orderId: number) {
+    const order = await this.prisma.orderFoods.findMany({
+      where: {
+        orderId: orderId
+      },
+      include: {
+        food: true
+      }
+    });
+
+    if(!order){
+      throw new HttpException("Cant found Order", HttpStatus.NOT_FOUND);
+    }
+
+    return order;
   }
 }
