@@ -16,6 +16,19 @@ import { GatewayController } from './gateway.controller';
         }
       }
     }]),
+
+    ClientsModule.register([{
+      name: "USERS",
+      transport: Transport.RMQ,
+      options: {
+        urls: ['amqp://admin:1234@localhost:5672'],
+        queue: 'user_queue',
+        queueOptions: {
+          durable: false
+        }
+      }
+    }]),
+    
     JwtModule.register({
       global: true
     })
