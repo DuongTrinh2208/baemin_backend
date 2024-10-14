@@ -6,11 +6,11 @@ import { GatewayController } from './gateway.controller';
 @Module({
   imports: [
     ClientsModule.register([{
-      name: "FOODS",
+      name: "PRODUCTS",
       transport: Transport.RMQ,
       options: {
         urls: ['amqp://admin:1234@localhost:5672'],
-        queue: 'foods_queue',
+        queue: 'product_queue',
         queueOptions: {
           durable: false
         }

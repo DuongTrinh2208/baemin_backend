@@ -8,18 +8,18 @@ import { lastValueFrom } from "rxjs";
 export class GatewayController {
     constructor(
         private jwtService: JwtService,
-        @Inject("FOODS") private readonly foodService: ClientProxy,
+        @Inject("PRODUCTS") private readonly productService: ClientProxy,
         @Inject("USERS") private readonly userService: ClientProxy,
     ) {}
 
     async onModuleInit(){
-        await this.foodService.connect();
+        await this.productService.connect();
         await this.userService.connect();
     }
 
-    @Get('foods')
+    @Get('list-foods')
     async getFoods() {
-        return this.foodService.send("list", {});
+        return await lastValueFrom(this.productService.send("GET_FOOD", {}));
     }
 
     @Post('create-user')
