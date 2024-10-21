@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { ClientProxy, ClientProxyFactory } from "@nestjs/microservices";
 import { Inject } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
@@ -20,6 +20,25 @@ export class GatewayController {
     @Get('list-foods')
     async getFoods() {
         return await lastValueFrom(this.productService.send("GET_FOOD", {}));
+    }
+
+    @Get('search-foods')
+    async searchFoods(@Query('description') description: string){
+        let payload = {
+            description
+        };
+
+        const response = await lastValueFrom(this.productService.send("SEARCH_FOOD", payload));
+        const hits = response.hits.hits;
+        if(hits.length <= 0){
+            return [];
+        }
+
+        let results = [];
+        for(let hit of hits){
+            results.push(hit._source);
+        }
+        return results;
     }
 
     @Post('create-user')
