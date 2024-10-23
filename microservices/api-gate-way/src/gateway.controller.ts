@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Post, Query } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query, UseGuards, Headers} from "@nestjs/common";
 import { ClientProxy, ClientProxyFactory } from "@nestjs/microservices";
 import { Inject } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { lastValueFrom } from "rxjs";
+import { JwtAuthGuard } from "./auth/jwt-auth.guard";
 
 @Controller('api')
 export class GatewayController {
@@ -10,11 +11,13 @@ export class GatewayController {
         private jwtService: JwtService,
         @Inject("PRODUCTS") private readonly productService: ClientProxy,
         @Inject("USERS") private readonly userService: ClientProxy,
+        @Inject("ORDERS") private readonly orderService: ClientProxy,
     ) {}
 
     async onModuleInit(){
         await this.productService.connect();
         await this.userService.connect();
+        await this.orderService.connect();
     }
 
     @Get('list-foods')
@@ -70,6 +73,19 @@ export class GatewayController {
         };
 
         let data = await lastValueFrom(this.userService.send("LOGIN_USER", payload));
+        return data;
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('create-order')
+    async createOrder(
+        @Headers() headers: any
+    ){
+        console.log(headers);
+        const token = headers.authorization;
+        let data = await lastValueFrom(this.orderService.send("CREATE_ORDER", {
+            authorization: token
+        }));
         return data;
     }
 }
