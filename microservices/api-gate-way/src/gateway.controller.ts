@@ -79,12 +79,17 @@ export class GatewayController {
     @UseGuards(JwtAuthGuard)
     @Post('create-order')
     async createOrder(
-        @Headers() headers: any
+        @Headers() headers: any,
+        @Body('listFoods') listFoods: Array<any>,
+        @Body('storeId') storeId: number
     ){
-        console.log(headers);
         const token = headers.authorization;
         let data = await lastValueFrom(this.orderService.send("CREATE_ORDER", {
-            authorization: token
+            authorization: token,
+            data: {
+                listFoods,
+                storeId
+            }
         }));
         return data;
     }
