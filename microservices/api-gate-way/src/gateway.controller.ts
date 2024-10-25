@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, Query, UseGuards, Headers} from "@nestjs/c
 import { ClientProxy, ClientProxyFactory } from "@nestjs/microservices";
 import { Inject } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { lastValueFrom } from "rxjs";
+import { last, lastValueFrom } from "rxjs";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
 
 @Controller('api')
@@ -12,6 +12,7 @@ export class GatewayController {
         @Inject("PRODUCTS") private readonly productService: ClientProxy,
         @Inject("USERS") private readonly userService: ClientProxy,
         @Inject("ORDERS") private readonly orderService: ClientProxy,
+        @Inject("PAYMENTS") private readonly paymentService: ClientProxy,
     ) {}
 
     async onModuleInit(){
@@ -89,6 +90,22 @@ export class GatewayController {
             data: {
                 listFoods,
                 storeId
+            }
+        }));
+        return data;
+    }
+
+    @Post('order-payment')
+    @UseGuards(JwtAuthGuard)
+    async orderPayment(
+        @Headers() headers: any,
+        @Body('orderId') orderId: number
+    ){
+        const token = headers.authorization;
+        let data = await lastValueFrom(this.paymentService.send("ORDER_PAYMENT", {
+            authorization: token,
+            data: {
+                orderId
             }
         }));
         return data;

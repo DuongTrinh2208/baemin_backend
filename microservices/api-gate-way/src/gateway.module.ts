@@ -43,6 +43,18 @@ import { JwtStrategy } from './auth/jwt.strategy';
       }
     }]),
     
+    ClientsModule.register([{
+      name: "PAYMENTS",
+      transport: Transport.RMQ,
+      options: {
+        urls: ['amqp://admin:1234@localhost:5672'],
+        queue: 'payment_queue',
+        queueOptions: {
+          durable: false
+        }
+      }
+    }]),
+
     JwtModule.register({
       secret: process.env.JWT_SECRET || 'secret-key',
       signOptions: { expiresIn: '1h' },
