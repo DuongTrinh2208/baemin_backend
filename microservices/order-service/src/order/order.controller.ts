@@ -17,4 +17,13 @@ export class OrderController {
     const tokenData = await this.orderService.decodeToken(Payload.authorization);
     return await this.orderService.createOrder(tokenData.id, listFoods, storeId);
   }
+
+  @EventPattern("FIND_DRIVER")
+  async findDriver(
+    @Payload() Payload: any
+  ){
+    const {orderId} = Payload.data;
+    const tokenData = await this.orderService.decodeToken(Payload.authorization);
+    return await this.orderService.findDriver(tokenData.id, +orderId);
+  }
 }

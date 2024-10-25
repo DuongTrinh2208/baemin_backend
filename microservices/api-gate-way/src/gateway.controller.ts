@@ -110,4 +110,21 @@ export class GatewayController {
         }));
         return data;
     }
+
+    @Post('find-driver')
+    @UseGuards(JwtAuthGuard)
+    async findDriver(
+        @Headers() headers: any,
+        @Body('orderId') orderId: number
+    ){
+        const token = headers.authorization;
+        let data = await lastValueFrom(this.orderService.send("FIND_DRIVER", {
+            authorization: token,
+            data: {
+                orderId
+            }
+        }));
+
+        return data;
+    }
 }

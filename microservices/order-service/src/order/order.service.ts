@@ -91,4 +91,50 @@ export class OrderService {
 
         return food;
     }
+
+    async getDriver() {
+        const driverCount = await this.prisma.driver.count();
+
+        const randomOffset = Math.floor(Math.random() * driverCount);
+
+        const randomDriver = await this.prisma.driver.findMany({
+            take: 1,
+            skip: randomOffset
+        });
+
+        return randomDriver[0];
+    }
+
+    async findDriver(customerId: number, orderId: number) {
+        const order = await this.prisma.order.findFirst({
+            where: {
+                id: orderId
+            }
+        });
+
+        if (!order) {
+            throw new HttpException("Cant found Order", HttpStatus.NOT_FOUND);
+        }
+
+        if (order.status != "Paid") {
+            throw new HttpException("Invalid Order", HttpStatus.FORBIDDEN);
+        }
+
+        if (order.customer_id != customerId) {
+            throw new HttpException("Invalid Customer", HttpStatus.FORBIDDEN);
+        }
+
+        const driver = await this.getDriver();
+
+        return this.prisma.order.update({
+            where: {
+                id: order.id
+            },
+            data: {
+                status: "Delivering",
+                driver_id: driver.id,
+                deliverydate: new Date()
+            }
+        });
+    }
 }
