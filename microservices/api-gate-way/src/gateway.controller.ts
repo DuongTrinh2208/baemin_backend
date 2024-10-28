@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UseGuards, Headers} from "@nestjs/common";
+import { Body, Controller, Get, Post, Query, UseGuards, Headers } from "@nestjs/common";
 import { ClientProxy, ClientProxyFactory } from "@nestjs/microservices";
 import { Inject } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
@@ -13,9 +13,9 @@ export class GatewayController {
         @Inject("USERS") private readonly userService: ClientProxy,
         @Inject("ORDERS") private readonly orderService: ClientProxy,
         @Inject("PAYMENTS") private readonly paymentService: ClientProxy,
-    ) {}
+    ) { }
 
-    async onModuleInit(){
+    async onModuleInit() {
         await this.productService.connect();
         await this.userService.connect();
         await this.orderService.connect();
@@ -26,20 +26,31 @@ export class GatewayController {
         return await lastValueFrom(this.productService.send("GET_FOOD", {}));
     }
 
+    @Get('get-food-paging')
+    async getFoodsPaging(
+        @Query("page") page: number,
+        @Query("perPage") perPage: number
+    ) {
+        return await lastValueFrom(this.productService.send("GET_FOOD_PAGING", {
+            perPage,
+            page
+        }))
+    }
+
     @Get('search-foods')
-    async searchFoods(@Query('description') description: string){
+    async searchFoods(@Query('description') description: string) {
         let payload = {
             description
         };
 
         const response = await lastValueFrom(this.productService.send("SEARCH_FOOD", payload));
         const hits = response.hits.hits;
-        if(hits.length <= 0){
+        if (hits.length <= 0) {
             return [];
         }
 
         let results = [];
-        for(let hit of hits){
+        for (let hit of hits) {
             results.push(hit._source);
         }
         return results;
@@ -51,7 +62,7 @@ export class GatewayController {
         @Body('age') age: number,
         @Body('address') address: string,
         @Body('password') password: string,
-    ){
+    ) {
         let payload = {
             email,
             age,
@@ -67,7 +78,7 @@ export class GatewayController {
     async userLogin(
         @Body('email') email: string,
         @Body('password') password: string,
-    ){
+    ) {
         let payload = {
             email,
             password
@@ -83,7 +94,7 @@ export class GatewayController {
         @Headers() headers: any,
         @Body('listFoods') listFoods: Array<any>,
         @Body('storeId') storeId: number
-    ){
+    ) {
         const token = headers.authorization;
         let data = await lastValueFrom(this.orderService.send("CREATE_ORDER", {
             authorization: token,
@@ -100,7 +111,7 @@ export class GatewayController {
     async orderPayment(
         @Headers() headers: any,
         @Body('orderId') orderId: number
-    ){
+    ) {
         const token = headers.authorization;
         let data = await lastValueFrom(this.paymentService.send("ORDER_PAYMENT", {
             authorization: token,
@@ -116,7 +127,7 @@ export class GatewayController {
     async findDriver(
         @Headers() headers: any,
         @Body('orderId') orderId: number
-    ){
+    ) {
         const token = headers.authorization;
         let data = await lastValueFrom(this.orderService.send("FIND_DRIVER", {
             authorization: token,

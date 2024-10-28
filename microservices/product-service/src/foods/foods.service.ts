@@ -1,3 +1,4 @@
+import { da } from '@faker-js/faker/.';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ElasticsearchService } from '@nestjs/elasticsearch';
@@ -27,6 +28,25 @@ export class FoodsService implements OnModuleInit {
 
         let data = await this.prisma.food.findMany();
         this.cacheManager.set("list-foods", data);
+        return data;
+    }
+
+    async getFoodPaging(perPage, page){
+        const cacheKey = `foods-page-${page}-perPage-${perPage}`;
+
+        let cachedData = await this.cacheManager.get(cacheKey);
+
+        if(cachedData){
+            return cachedData;
+        }
+
+        const data = await this.prisma.food.findMany({
+            take: perPage,
+            skip: page * perPage
+        });
+
+        this.cacheManager.set(cacheKey, data);
+
         return data;
     }
 
