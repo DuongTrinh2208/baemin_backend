@@ -22,4 +22,9 @@ export class FoodsController {
 
     return await this.foodsService.getFoodPaging(+perPage, +page);
   }
+
+  @EventPattern("FOOD_CATEGORY")
+  async getFoodCategory(){
+    return await this.foodsService.getFoodCategories();
+  }
 }

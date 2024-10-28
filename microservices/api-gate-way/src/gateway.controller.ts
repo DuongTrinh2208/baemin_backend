@@ -74,6 +74,12 @@ export class GatewayController {
         return data;
     }
 
+    @Get('food-categories')
+    async getFoodCategories(){
+        let data = await lastValueFrom(this.productService.send("FOOD_CATEGORY", {}));
+        return data;
+    }
+
     @Post('user-login')
     async userLogin(
         @Body('email') email: string,

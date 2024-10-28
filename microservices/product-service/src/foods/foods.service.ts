@@ -64,6 +64,21 @@ export class FoodsService implements OnModuleInit {
         return data;
     }
 
+    async getFoodCategories(){
+        const categoriesKey = `food-categories`;
+
+        let cachedData = await this.cacheManager.get(categoriesKey);
+
+        if(cachedData){
+            return cachedData;
+        }
+
+        let data = await this.prisma.category.findMany();
+
+        this.cacheManager.set(categoriesKey, data);
+        return data;
+    }
+
     async syncFoodsToElasticsearch() {
         const foods = await this.prisma.food.findMany(); // Fetch from PostgreSQL
         for (const food of foods) {
