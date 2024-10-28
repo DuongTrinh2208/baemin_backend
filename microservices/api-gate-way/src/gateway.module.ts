@@ -11,7 +11,7 @@ import { JwtStrategy } from './auth/jwt.strategy';
       name: "PRODUCTS",
       transport: Transport.RMQ,
       options: {
-        urls: ['amqp://admin:1234@localhost:5672'],
+        urls: ['amqp://admin:1234@some-rabbit:5672'],
         queue: 'product_queue',
         queueOptions: {
           durable: false
@@ -23,7 +23,7 @@ import { JwtStrategy } from './auth/jwt.strategy';
       name: "USERS",
       transport: Transport.RMQ,
       options: {
-        urls: ['amqp://admin:1234@localhost:5672'],
+        urls: ['amqp://admin:1234@some-rabbit:5672'],
         queue: 'user_queue',
         queueOptions: {
           durable: false
@@ -35,7 +35,7 @@ import { JwtStrategy } from './auth/jwt.strategy';
       name: "ORDERS",
       transport: Transport.RMQ,
       options: {
-        urls: ['amqp://admin:1234@localhost:5672'],
+        urls: ['amqp://admin:1234@some-rabbit:5672'],
         queue: 'order_queue',
         queueOptions: {
           durable: false
@@ -47,7 +47,7 @@ import { JwtStrategy } from './auth/jwt.strategy';
       name: "PAYMENTS",
       transport: Transport.RMQ,
       options: {
-        urls: ['amqp://admin:1234@localhost:5672'],
+        urls: ['amqp://admin:1234@some-rabbit:5672'],
         queue: 'payment_queue',
         queueOptions: {
           durable: false
