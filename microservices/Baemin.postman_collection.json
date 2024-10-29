@@ -1,0 +1,292 @@
+{
+	"info": {
+		"_postman_id": "0cf97f28-2726-40eb-ad98-77e7e9cf9d41",
+		"name": "Baemin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32465260"
+	},
+	"item": [
+		{
+			"name": "User MicroServices",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin\",\n    \"age\": 25,\n    \"address\": \"123 street\",\n    \"password\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/create-user",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"create-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin\",\n    \"password\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/user-login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user-login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product MircoServices",
+			"item": [
+				{
+					"name": "List Food",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/list-foods",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"list-foods"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search Food",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/search-foods?description=Vietnamese",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"search-foods"
+							],
+							"query": [
+								{
+									"key": "description",
+									"value": "Vietnamese"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Food Paging",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/get-food-paging?perPage=200&page=2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"get-food-paging"
+							],
+							"query": [
+								{
+									"key": "perPage",
+									"value": "200"
+								},
+								{
+									"key": "page",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Food categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/food-categories",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"food-categories"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order MicroServices",
+			"item": [
+				{
+					"name": "Create Order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhZG1pbiIsImFnZSI6MjUsImFkZHJlc3MiOiIxMjMgc3RyZWV0IiwiaWF0IjoxNzI5Nzc1ODMxLCJleHAiOjE3Mjk3Nzk0MzF9.qo5bFVXDi-Vf16JYHzGvCSTLEhu1fCHZUhN_1kFSosk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"listFoods\": [\n        {\n            \"id\": 14,\n            \"quantity\": 1\n        },\n        {\n            \"id\": 15,\n            \"quantity\": 2\n        }\n    ],\n    \"storeId\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/create-order",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"create-order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Driver",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhZG1pbiIsImFnZSI6MjUsImFkZHJlc3MiOiIxMjMgc3RyZWV0IiwiaWF0IjoxNzI5ODcwNjUwLCJleHAiOjE3Mjk4NzQyNTB9.cMGSsxhP1yLFtat46WvZmi-0ksKH0wX4fhLdA5CreaQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"orderId\": \"20\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/find-driver",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"find-driver"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Payment MicroServices",
+			"item": [
+				{
+					"name": "Order Payment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhZG1pbiIsImFnZSI6MjUsImFkZHJlc3MiOiIxMjMgc3RyZWV0IiwiaWF0IjoxNzI5ODcwNjUwLCJleHAiOjE3Mjk4NzQyNTB9.cMGSsxhP1yLFtat46WvZmi-0ksKH0wX4fhLdA5CreaQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"orderId\": \"20\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/order-payment",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"order-payment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
